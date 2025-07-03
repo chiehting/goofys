@@ -1,0 +1,42 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "umount-bucket",
+			"command": "umount ../mount_bucket || true",
+			"args": [],
+			"problemMatcher": [],
+			"runOptions": {},
+			"presentation": {
+				"reveal": "silent", // always, silent, never
+				"echo": true,
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"close": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "build",
+			"command": "go",
+			"args": [
+				"build",
+				"-ldflags='-w -s'",
+			],
+			"problemMatcher": [],
+			"runOptions": {},
+			"presentation": {
+				"reveal": "always", // always, silent, never
+				"echo": true,
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"close": true
+			}
+		}
+	]
+}
