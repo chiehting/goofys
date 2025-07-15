@@ -117,6 +117,8 @@ func NewBackend(bucket string, flags *FlagStorage) (cloud StorageBackend, err er
 		}
 	} else if config, ok := flags.Backend.(*GCSConfig); ok {
 		cloud, err = NewGCS(bucket, config)
+	} else if config, ok := flags.Backend.(*HuaweiObsConfig); ok {
+		cloud, err = NewHuaweiObs(bucket, flags, config)
 	} else {
 		err = fmt.Errorf("Unknown backend config: %T", flags.Backend)
 	}

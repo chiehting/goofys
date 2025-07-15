@@ -4,7 +4,7 @@
 		{
 			"type": "shell",
 			"label": "umount-bucket",
-			"command": "umount ../mount_bucket || true",
+			"command": "umount ../mount || true",
 			"args": [],
 			"problemMatcher": [],
 			"runOptions": {},

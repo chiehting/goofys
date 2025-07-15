@@ -372,6 +372,11 @@ func PopulateFlags(c *cli.Context) (ret *FlagStorage) {
 		}
 	}
 
+	// Huawei OBS
+	if flags.Endpoint != "" && strings.HasSuffix(flags.Endpoint, "myhuaweicloud.com") {
+		flags.Backend = (&HuaweiObsConfig{}).Init()
+	}
+
 	// Handle the repeated "-o" flag.
 	for _, o := range c.StringSlice("o") {
 		parseOptions(flags.MountOptions, o)

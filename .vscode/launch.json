@@ -2,7 +2,29 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Package",
+            "name": "Launch AWS",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}",
+            // "showLog": true,
+            // "trace": "verbose",
+            "envFile": "${workspaceFolder}/.env",
+            "env": {},
+            "program": "${workspaceFolder}/main.go",
+            "args": [
+                "--use-content-type",
+                "--dir-mode=0777",
+                "--debug_fuse",
+                "--debug_s3",
+                "-f",
+                "testS3Bucket",
+                "../mount"
+            ],
+            // "console": "integratedTerminal",
+            "postDebugTask": "umount-bucket"
+        }, {
+            "name": "Launch Huawei",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -19,8 +41,8 @@
                 "--debug_s3",
                 "-f",
                 "--endpoint=https://obs.cn-east-3.myhuaweicloud.com",
-                "fuwei-development",
-                "../mount_bucket"
+                "testObsBucket",
+                "../mount"
             ],
             // "console": "integratedTerminal",
             "postDebugTask": "umount-bucket"
