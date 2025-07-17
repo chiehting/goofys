@@ -1,0 +1,18 @@
+services:
+  goofys:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: goofys
+    privileged: true
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - HUAWEI_ACCESS_KEY_ID=${HUAWEI_ACCESS_KEY_ID}
+      - HUAWEI_SECRET_ACCESS_KEY=${HUAWEI_SECRET_ACCESS_KEY}
+      - HUAWEI_REGION=${HUAWEI_REGION}
+      - BUCKET=${BUCKET}
+      - ENDPOINT_URL=${ENDPOINT_URL}
+    entrypoint: ["/init"]
+    command: ["with-contenv","sh","-c","goofys -o allow_other --debug_fuse --debug_s3 --use-content-type --dir-mode=0777 -f --endpoint=${ENDPOINT_URL} ${BUCKET} /mnt"]
