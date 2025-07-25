@@ -1,9 +1,15 @@
-FROM golang:1.24.4-alpine3.22 AS builder
+FROM golang:1.24.4-bookworm AS builder
 WORKDIR /go/src
 COPY . .
-RUN go mod tidy; go build -ldflags="-w -s"
+RUN apt-get update && \
+ apt-get install -y --no-install-recommends \
+ fuse3=3.14.0-4 dumb-init=1.2.5-2 && \
+ rm -rf /var/lib/apt/lists/* && \
+ go mod download && \
+ go build -ldflags="-w -s"
 
-FROM alpine:3.22.0
+FROM gcr.io/distroless/base-nossl-debian12
+COPY --from=builder /usr/bin/fusermount /usr/bin/fusermount
+COPY --from=builder /usr/bin/dumb-init /usr/bin/dumb-init
 COPY --from=builder /go/src/goofys /usr/bin
-RUN apk add --no-cache mailcap fuse s6-overlay
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]

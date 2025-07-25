@@ -14,5 +14,13 @@ services:
       - HUAWEI_REGION=${HUAWEI_REGION}
       - BUCKET=${BUCKET}
       - ENDPOINT_URL=${ENDPOINT_URL}
-    entrypoint: ["/init"]
-    command: ["with-contenv","sh","-c","goofys -o allow_other --debug_fuse --debug_s3 --use-content-type --dir-mode=0777 -f --endpoint=${ENDPOINT_URL} ${BUCKET} /mnt"]
+    entrypoint: ["/usr/bin/dumb-init", "--"]
+    command: ["goofys","-o","allow_other","--debug_fuse","--debug_s3","--use-content-type","--dir-mode=0777","-f","--endpoint=${ENDPOINT_URL}","${BUCKET}","/mnt"]
+    volumes:
+      - "./shared-data:/mnt:rshared"
+  alpine:
+    image: alpine:3.22.0
+    tty: true
+    command: sh
+    volumes:
+      - "./shared-data:/mnt:rslave"
